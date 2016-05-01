@@ -20,34 +20,8 @@ class DigitalOceanDemoAllLinux extends BaseLinuxApp {
         parent::__construct($params);
     }
 
-    public function setDocRoot() {
-        $this->docroot = "" ;
-        if (isset($this->params["docroot"])) {
-            $this->docroot = $this->params["docroot"] ; }
-    }
-
-    public function setVirtufile() {
-        $vflbo = $this->docroot."/VirtufileBase.php";
-        $vflo = $this->docroot."/Virtufile";
-        if (file_exists($vflbo) && file_exists($vflo)) {
-            require_once($vflbo);
-            require_once($vflo);
-            $this->virtufile = new \Model\Virtufile ; }
-    }
-
-    public function getGuestPath() {
-        $this->setDocRoot();
-        return $this->params["docroot"] ;
-    }
-
-    public function getHostPath() {
-        $this->setDocRoot();
-        return $this->params["docroot"] ;
-    }
-
-    public function getVMName() {
-        $this->setVirtufile();
-        return $this->virtufile->config["vm"]["name"] ;
+    public function findProviderDefaultKey() {
+        return "daveylappy" ;
     }
 
     public function findHost() {
@@ -86,10 +60,6 @@ class DigitalOceanDemoAllLinux extends BaseLinuxApp {
             "_".
             $this->findEnvironmentLevel() ;
         return $complete ;
-    }
-
-    public function findProviderDefaultKey() {
-        return "goldenballs" ;
     }
 
     public function getWebServerSSHData() {
