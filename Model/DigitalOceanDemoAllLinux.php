@@ -40,8 +40,8 @@ class DigitalOceanDemoAllLinux extends BaseLinuxApp {
         return $this->findSlug().".com" ;
     }
 
-    public function findWebServerTarget() {
-        $env_level = $this->findCompleteSlug()."-bastion" ;
+    public function findDemoTarget() {
+        $env_level = $this->findCompleteSlug()."-webserver" ;
         $conf = \Model\AppConfig::getProjectVariable("environments") ;
         $balancer_target = null ;
         foreach ($conf as $one_env) {
