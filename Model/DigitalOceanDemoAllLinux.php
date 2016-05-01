@@ -55,9 +55,9 @@ class DigitalOceanDemoAllLinux extends BaseLinuxApp {
     public function findCompleteSlug() {
         $complete =
             $this->findHost().
-            "_".
+            "-".
             $this->findSlug().
-            "_".
+            "-".
             $this->findEnvironmentLevel() ;
         return $complete ;
     }
