@@ -6,7 +6,7 @@ class DigitalOceanDemoInfo extends Base {
 
   public $hidden = false;
 
-  public $name = "Laughing Babies Joomla Platform Module";
+  public $name = "Digital Ocean Demo Module";
 
   public function __construct() {
     parent::__construct();
@@ -17,7 +17,7 @@ class DigitalOceanDemoInfo extends Base {
   }
 
   public function routeAliases() {
-    return array("DigitalOceanDemo"=>"DigitalOceanDemo", "DigitalOceanDemo"=>"DigitalOceanDemo");
+    return array("DigitalOceanDemo"=>"DigitalOceanDemo", "dodemo"=>"DigitalOceanDemo");
   }
 
   public function helpDefinition() {
