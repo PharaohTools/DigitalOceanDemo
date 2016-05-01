@@ -6,7 +6,7 @@ class DigitalOceanDemoInfo extends Base {
 
   public $hidden = false;
 
-  public $name = "Digital Ocean Demo Module";
+  public $name = "Digital Ocean Demonstration Module";
 
   public function __construct() {
     parent::__construct();
