@@ -33,7 +33,7 @@ class DigitalOceanDemoAllLinux extends BaseLinuxApp {
     }
 
     public function findSlug() {
-        return $this->findHost() ;
+        return "pharaohtools" ;
     }
 
     public function findDomain() {
