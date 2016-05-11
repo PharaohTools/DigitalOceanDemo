@@ -20,6 +20,12 @@ class DigitalOceanDemoAllLinux extends BaseLinuxApp {
         parent::__construct($params);
     }
 
+    public function noBastionSSHKeyExists() {
+        $bastion_key_location = '/build/config/ptconfigure/ssh' ;
+        if (file_exists($bastion_key_location)) { return false ; }
+        return true ;
+    }
+
     public function findProviderDefaultKey() {
         return "daveylappy" ;
     }
