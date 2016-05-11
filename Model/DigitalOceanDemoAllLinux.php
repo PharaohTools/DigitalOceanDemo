@@ -20,8 +20,24 @@ class DigitalOceanDemoAllLinux extends BaseLinuxApp {
         parent::__construct($params);
     }
 
+    public function getBastionPrivateKeyPath() {
+        $bastion_key_location = getcwd().'/build/config/ptconfigure/ssh/keys/raw/bastion' ;
+        return $bastion_key_location ;
+    }
+
+    public function getDevopsPrivateKeyPath() {
+        $devops_key_location = getcwd().'/build/config/ptconfigure/ssh/keys/raw/devops' ;
+        return $devops_key_location ;
+    }
+
     public function noBastionSSHKeyExists() {
-        $bastion_key_location = '/build/config/ptconfigure/ssh' ;
+        $bastion_key_location = $this->getBastionPrivateKeyPath() ;
+        if (file_exists($bastion_key_location)) { return false ; }
+        return true ;
+    }
+
+    public function noDevopsSSHKeyExists() {
+        $bastion_key_location = $this->getDevopsPrivateKeyPath() ;
         if (file_exists($bastion_key_location)) { return false ; }
         return true ;
     }
