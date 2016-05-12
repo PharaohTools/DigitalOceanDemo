@@ -30,6 +30,16 @@ class DigitalOceanDemoAllLinux extends BaseLinuxApp {
         return $devops_key_location ;
     }
 
+    public function getBastionPublicKeyPath() {
+        $bastion_key_location = getcwd().'/build/config/ptconfigure/ssh/keys/raw/bastion.pub' ;
+        return $bastion_key_location ;
+    }
+
+    public function getDevopsPublicKeyPath() {
+        $devops_key_location = getcwd().'/build/config/ptconfigure/ssh/keys/raw/devops.pub' ;
+        return $devops_key_location ;
+    }
+
     public function noBastionSSHKeyExists() {
         $bastion_key_location = $this->getBastionPrivateKeyPath() ;
         if (file_exists($bastion_key_location)) { return false ; }
