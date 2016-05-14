@@ -72,16 +72,18 @@ class DigitalOceanDemoAllLinux extends BaseLinuxApp {
         return $this->findSlug().".com" ;
     }
 
-    public function findDemoServerTarget() {
-        $env_level = $this->findCompleteSlug()."-webserver" ;
+    public function findTarget($target_type) {
+        $loggingFactory = new \Model\Logging() ;
+        $logging = $loggingFactory->getModel() ;
+        $logging->log("Trying to find target from {$target_type} ", $this->getModuleName()) ;
+        $env_level = $this->findCompleteSlug()."-{$target_type}" ;
         $conf = \Model\AppConfig::getProjectVariable("environments") ;
-        $balancer_target = null ;
+        $target = null ;
         foreach ($conf as $one_env) {
-            // $logging->log("Looking for env {$env_level} in {$one_env["any-app"]["gen_env_name"]}", $this->getModuleName()) ;
             if ($one_env["any-app"]["gen_env_name"] == $env_level) {
                 $cou = count($one_env["servers"]) - 1 ;
-                $balancer_target = $one_env["servers"][$cou]["target"]; } }
-        return $balancer_target ;
+                $target = $one_env["servers"][$cou]["target"]; } }
+        return $target ;
     }
 
     public function findCompleteSlug() {
