@@ -21,7 +21,7 @@ class DigitalOceanDemoAllLinux extends BaseLinuxApp {
     }
 
     public function projectRoot() {
-        $projectRoot = '/home/pharaoh/WebStuff/pharaohtools' ;
+        $projectRoot = getcwd() ;
         return $projectRoot ;
     }
 
