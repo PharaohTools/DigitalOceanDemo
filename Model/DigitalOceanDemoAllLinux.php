@@ -20,6 +20,11 @@ class DigitalOceanDemoAllLinux extends BaseLinuxApp {
         parent::__construct($params);
     }
 
+    public function projectRoot() {
+        $projectRoot = '/home/pharaoh/WebStuff/pharaohtools' ;
+        return $projectRoot ;
+    }
+
     public function getBastionPrivateKeyPath() {
         $bastion_key_location = getcwd().'/build/config/ptconfigure/ssh/keys/raw/bastion' ;
         return $bastion_key_location ;
@@ -74,7 +79,7 @@ class DigitalOceanDemoAllLinux extends BaseLinuxApp {
 
     public function findTarget($target_type) {
         $loggingFactory = new \Model\Logging() ;
-        $logging = $loggingFactory->getModel() ;
+        $logging = $loggingFactory->getModel($this->params) ;
         $logging->log("Trying to find target from {$target_type} ", $this->getModuleName()) ;
         $env_level = $this->findCompleteSlug()."-{$target_type}" ;
         $conf = \Model\AppConfig::getProjectVariable("environments") ;
@@ -96,14 +101,20 @@ class DigitalOceanDemoAllLinux extends BaseLinuxApp {
         return $complete ;
     }
 
-    public function getWebServerSSHData() {
+    public function getAllConfigsSSHData() {
         $sshData = <<<"SSHDATA"
 sudo apt-get update -y
 sudo apt-get install php5 git -y
 cd /tmp
 git clone http://github.com/PharaohTools/ptconfigure.git
 sudo php ptconfigure/install-silent
-sudo ptconfigure autopilot execute --autopilot-file="/tmp/cm-webserver.dsl.php"
+sudo ptconfigure autopilot execute --af="/tmp/cm-bastion.dsl.php"
+sudo ptconfigure invoke script -yg --af="/tmp/cm-bastion.dsl.php"
+sudo ptconfigure invoke script -yg --af="/tmp/cm-bastion.dsl.php"
+rm papyrusfile
+rm /tmp/cm-bastion.dsl.php
+rm /tmp/cm-webserver.dsl.php
+rm /tmp/cm-webserver.dsl.php
 rm /tmp/cm-webserver.dsl.php
 SSHDATA;
         return $sshData ;
