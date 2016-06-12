@@ -57,10 +57,6 @@ class DigitalOceanDemoAllLinux extends BaseLinuxApp {
         return true ;
     }
 
-    public function findProviderDefaultKey() {
-        return "daveylappy" ;
-    }
-
     public function findHost() {
         return "welovedigitalocean" ;
     }
@@ -77,17 +73,23 @@ class DigitalOceanDemoAllLinux extends BaseLinuxApp {
         return $this->findSlug().".com" ;
     }
 
-    public function findTarget($target_type) {
+    public function findTarget($target_type, $target_scope = null) {
         $loggingFactory = new \Model\Logging() ;
         $logging = $loggingFactory->getModel($this->params) ;
         $logging->log("Trying to find target from {$target_type} ", $this->getModuleName()) ;
         $env_level = $this->findCompleteSlug()."-{$target_type}" ;
         $conf = \Model\AppConfig::getProjectVariable("environments") ;
+
+        if ($target_scope == "public") { $target_scope_string = "target_public" ; }
+        else if ($target_scope == "private") { $target_scope_string = "target_private" ; }
+        else { $target_scope_string = "target" ; }
+
+
         $target = null ;
         foreach ($conf as $one_env) {
             if ($one_env["any-app"]["gen_env_name"] == $env_level) {
                 $cou = count($one_env["servers"]) - 1 ;
-                $target = $one_env["servers"][$cou]["target"]; } }
+                $target = $one_env["servers"][$cou][$target_scope_string]; } }
         return $target ;
     }
 
@@ -99,25 +101,6 @@ class DigitalOceanDemoAllLinux extends BaseLinuxApp {
             "-".
             $this->findEnvironmentLevel() ;
         return $complete ;
-    }
-
-    public function getAllConfigsSSHData() {
-        $sshData = <<<"SSHDATA"
-sudo apt-get update -y
-sudo apt-get install php5 git -y
-cd /tmp
-git clone http://github.com/PharaohTools/ptconfigure.git
-sudo php ptconfigure/install-silent
-sudo ptconfigure autopilot execute --af="/tmp/cm-bastion.dsl.php"
-sudo ptconfigure invoke script -yg --af="/tmp/cm-bastion.dsl.php"
-sudo ptconfigure invoke script -yg --af="/tmp/cm-bastion.dsl.php"
-rm papyrusfile
-rm /tmp/cm-bastion.dsl.php
-rm /tmp/cm-webserver.dsl.php
-rm /tmp/cm-webserver.dsl.php
-rm /tmp/cm-webserver.dsl.php
-SSHDATA;
-        return $sshData ;
     }
 
 }
